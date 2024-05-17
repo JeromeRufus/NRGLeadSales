@@ -19,11 +19,17 @@ class _ListDataPageState extends State<ListDataPage> {
   CollectionReference data = FirebaseFirestore.instance.collection('leaddata');
   Future<void> deletePlace(id) {
     // print("User Deleted $id");
-    return data
-        .doc(id)
-        .delete()
-        .then((value) => print('User Deleted'))
-        .catchError((error) => print('Failed to Delete user: $error'));
+    return data.doc(id).delete().then((value) {
+      print("Data Deleted");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Form delete successfully')),
+      );
+    }).catchError((error) {
+      print("Failed to delete data: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to submit form: $error')),
+      );
+    });
   }
 
   @override
